@@ -153,13 +153,13 @@ public class RecipeService {
             } else {
                 recipeEntities = recipeRepository.findAll();
             }
-            if (recipeEntities.isEmpty()) {
-                LOGGER.info("No recipes found");
-                return null;
-            }
         } catch (Exception exception) {
             LOGGER.error("Get all recipes failed with exception : {}", exception.getMessage());
             throw new RecipeException(errorProcessor.createError(ErrorCode.DB_EXCEPTION_GET, ErrorSeverityLevel.ERROR));
+        }
+        if (recipeEntities.isEmpty()) {
+            LOGGER.info("No recipes found");
+            throw new RecipeException(errorProcessor.createError(ErrorCode.RECIPE_NOT_FOUND, ErrorSeverityLevel.INFO));
         }
         return recipeProcessor.processFetchAllRecipesResponse(recipeEntities);
     }

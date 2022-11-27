@@ -75,7 +75,7 @@ public class RecipeController implements BaseController {
      */
     @PutMapping(value = "/recipe/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateRecipe(@Valid @RequestBody Recipe recipe, @PathVariable Long id) {
-        return created(recipeService.updateRecipe(recipe, id));
+        return success(recipeService.updateRecipe(recipe, id));
     }
 
     /**

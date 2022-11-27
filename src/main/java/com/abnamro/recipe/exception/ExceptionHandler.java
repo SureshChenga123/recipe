@@ -1,5 +1,7 @@
 package com.abnamro.recipe.exception;
 
+import com.abnamro.recipe.resource.response.Error;
+import com.abnamro.recipe.resource.response.ErrorCode;
 import com.abnamro.recipe.resource.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +24,13 @@ public class ExceptionHandler {
      */
     @org.springframework.web.bind.annotation.ExceptionHandler(RecipeException.class)
     public ResponseEntity<ErrorResponse> handleRecipeException(RecipeException recipeException) {
+        Error error = recipeException.getError();
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.getErrors().add(recipeException.getError());
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        errorResponse.getErrors().add(error);
+        HttpStatus httpStatus  = HttpStatus.INTERNAL_SERVER_ERROR;
+        if(error.getName().equals(ErrorCode.RECIPE_NOT_FOUND.name())) {
+            httpStatus = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(errorResponse, httpStatus);
     }
 }
