@@ -159,7 +159,6 @@ public class RecipeService {
         }
         if (recipeEntities.isEmpty()) {
             LOGGER.info("No recipes found");
-            throw new RecipeException(errorProcessor.createError(ErrorCode.RECIPE_NOT_FOUND, ErrorSeverityLevel.INFO));
         }
         return recipeProcessor.processFetchAllRecipesResponse(recipeEntities);
     }
